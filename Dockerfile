@@ -1,17 +1,11 @@
-# Image chính thức của n8n
+# Dockerfile — minimal for Render
 FROM n8nio/n8n:latest
 
-# Render cần app listen ở 0.0.0.0:10000
-ENV N8N_PORT=10000
+# Set sensible default host
 ENV N8N_HOST=0.0.0.0
-ENV PORT=10000
-ENV N8N_PROTOCOL=http
+ENV GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
 
-# Làm việc trong thư mục của n8n
-WORKDIR /home/node
+# At runtime we need n8n to bind to the PORT Render gives us.
+# This start command ensures N8N_PORT is set from the Render-provided PORT env var.
+CMD ["sh", "-lc", "export N8N_PORT=${PORT:-5678} && exec n8n"]
 
-# Mở cổng 10000 cho Render
-EXPOSE 10000
-
-# Chạy n8n khi container khởi động
-CMD ["n8n", "start"]
