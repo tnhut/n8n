@@ -1,11 +1,13 @@
-# Dockerfile — minimal for Render
 FROM n8nio/n8n:latest
 
-# Set sensible default host
-ENV N8N_HOST=0.0.0.0
+# Set timezone nếu cần
 ENV GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
+ENV N8N_HOST=0.0.0.0
+ENV N8N_PROTOCOL=https
 
-# At runtime we need n8n to bind to the PORT Render gives us.
-# This start command ensures N8N_PORT is set from the Render-provided PORT env var.
-CMD ["sh", "-lc", "export N8N_PORT=${PORT:-5678} && exec n8n"]
+# Render cung cấp PORT → ta map nó sang N8N_PORT
+ENV N8N_PORT=${PORT}
 
+# Không override CMD
+# Vì image chính thức đã có entrypoint:
+#  ENTRYPOINT ["tini", "--", "n8n"]
