@@ -1,24 +1,25 @@
-# Base image n8n chính thức (Node + n8n installed)
-FROM n8nio/n8n:latest
+# 1. Base Node.js LTS
+FROM node:20-bullseye-slim
 
-# Chuyển sang root để copy source
-USER root
-
-# Copy source repo (nếu có workflow/custom node)
-COPY . /home/node/
-
+# 2. Set working directory
 WORKDIR /home/node
 
-# Set quyền cho node user
+# 3. Cài n8n global
+RUN npm install -g n8n
+
+# 4. Copy toàn bộ source repo (workflow/custom node)
+COPY . /home/node/
+
+# 5. Set quyền cho user node
 RUN chown -R node:node /home/node
 
-# Chuyển sang node user
+# 6. Switch sang node user
 USER node
 
-# Expose port n8n
+# 7. Expose port mặc định n8n
 EXPOSE 5678
 
-# ENV config n8n (tất cả config trong Dockerfile)
+# 8. ENV config n8n, DB, Auth, webhook
 ENV GENERIC_TIMEZONE="Asia/Ho_Chi_Minh" \
     N8N_BASIC_AUTH_USER="thanhnhut2506" \
     N8N_BASIC_AUTH_PASSWORD="iOrjPq0AQroKDd0qgo115h8dHw19X7iV" \
@@ -28,8 +29,7 @@ ENV GENERIC_TIMEZONE="Asia/Ho_Chi_Minh" \
     N8N_PROTOCOL="https" \
     WEBHOOK_URL="https://n8n-4yzg.onrender.com" \
     DB_TYPE="postgresdb" \
-    DB_POSTGRESDB_URL="postgresql://thanhnhut2506:iOrjPq0AQroKDd0qgo115h8dHw19X7iV@dpg-d49n8f49c44c739gnjv0-a.singapore-postgres.render.com:5432/n8ndb_djk2?sslmode=require" \
-    PATH="/home/node/.n8n/node_modules/.bin:$PATH"
+    DB_POSTGRESDB_URL="postgresql://thanhnhut2506:iOrjPq0AQroKDd0qgo115h8dHw19X7iV@dpg-d49n8f49c44c739gnjv0-a.singapore-postgres.render.com:5432/n8ndb_djk2?sslmode=require"
 
-# Start n8n
+# 9. Start n8n
 CMD ["n8n", "start"]
