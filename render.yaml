@@ -3,10 +3,28 @@ services:
     name: n8n-app
     env: docker
     plan: starter
-    dockerComposePath: ./docker-compose.yml
+    dockerfilePath: ./Dockerfile
     autoDeploy: true
-    buildCommand: ""
-    startCommand: "docker-compose up"
     envVars:
       - key: PORT
-        value: "10000"  # Render sẽ override bằng PORT runtime
+        value: "10000"
+      - key: DB_TYPE
+        value: postgresdb
+      - key: DB_POSTGRESDB_URL
+        value: postgresql://thanhnhut2506:iOrjPq0AQroKDd0qgo115h8dHw19X7iV@dpg-d49n8f49c44c739gnjv0-a.singapore-postgres.render.com:5432/n8ndb_djk2?sslmode=require
+      - key: N8N_BASIC_AUTH_USER
+        value: thanhnhut2506
+      - key: N8N_BASIC_AUTH_PASSWORD
+        value: iOrjPq0AQroKDd0qgo115h8dHw19X7iV
+      - key: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
+        value: "false"
+      - key: N8N_HOST
+        value: 0.0.0.0
+      - key: N8N_PORT
+        value: 5678
+      - key: N8N_PROTOCOL
+        value: https
+      - key: WEBHOOK_URL
+        value: https://n8n-4yzg.onrender.com
+      - key: GENERIC_TIMEZONE
+        value: Asia/Ho_Chi_Minh
