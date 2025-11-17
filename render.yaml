@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: n8n-app
+    env: docker
+    plan: starter
+    dockerComposePath: ./docker-compose.yml
+    autoDeploy: true
+    buildCommand: ""
+    startCommand: "docker-compose up"
+    envVars:
+      - key: PORT
+        value: "10000"  # Render sẽ override bằng PORT runtime
