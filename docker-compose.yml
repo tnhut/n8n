@@ -28,4 +28,4 @@ services:
       N8N_PROTOCOL: https
 
       # Webhook
-      WEBHOOK_URL: https://n8n-4yzg.onrender.com
+      WEBHOOK_URL: https://n8n-cd3d.onrender.com
